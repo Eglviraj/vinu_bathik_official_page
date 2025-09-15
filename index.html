@@ -3,89 +3,789 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Album</title>
+    <title>Sales Report Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
         }
-        header {
-            background-color: #ffffff;
-            padding: 20px;
-            text-align: center;
-            color: white;
+        input:disabled {
+            border-color: transparent !important;
+            background-color: transparent !important;
+            box-shadow: none !important;
+            padding-left: 0;
+            cursor: default;
         }
-        header img {
-            max-width: 300px;
-            display: block;
-            margin: 0 auto;
-        }
-        .album {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 20px;
-        }
-        .card {
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin: 10px;
-            width: 300px;
-            text-align: center;
-            overflow: hidden;
-        }
-        .card img {
-            width: 100%;
-            height: auto;
-        }
-        .card .card-text {
-            padding: 15px;
-            font-size: 16px;
-            color: #333;
+        .modal-bg {
+            background-color: rgba(0, 0, 0, 0.5);
         }
     </style>
 </head>
-<body>
+<body class="p-4 sm:p-8 md:p-12 lg:p-16 flex flex-col items-center min-h-screen">
 
-<header>
-    <img src="https://i.imgur.com/2yumiWY.jpeg" alt="Logo">
-    <!--h1>My Album</h1-->
-</header>
+    <div id="toast" class="fixed top-5 right-5 px-4 py-2 rounded-lg shadow-lg text-white hidden z-50"></div>
 
-<div class="album">
-    <div class="card">
-        <img src="https://i.imgur.com/IDl3lJw.jpeg" alt="Card Image 1">
-        <div class="card-text">This is a description for image 1.</div>
+    <!-- Login Form -->
+    <div id="loginForm" class="max-w-md w-full bg-white rounded-xl shadow-2xl p-6 sm:p-8 space-y-8">
+        <header class="text-center">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-800">Login</h1>
+            <p class="text-md sm:text-lg text-gray-500 mt-2">Choose your role to log in</p>
+        </header>
+        <div id="loginButtons" class="flex flex-col sm:flex-row gap-4 justify-center">
+            <button id="ownerLoginBtn" class="flex-1 flex flex-col items-center px-6 py-4 bg-gray-200 hover:bg-gray-300 rounded-xl shadow-md transition duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span class="mt-2 text-lg font-bold text-gray-700">Owner</span>
+            </button>
+            <button id="customerLoginBtn" class="flex-1 flex flex-col items-center px-6 py-4 bg-gray-200 hover:bg-gray-300 rounded-xl shadow-md transition duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+                <span class="mt-2 text-lg font-bold text-gray-700">Customer</span>
+            </button>
+        </div>
+        
+        <form id="loginFormContent" class="space-y-4 hidden">
+            <div>
+                <label for="loginInput" class="block text-sm font-medium text-gray-700" id="loginLabel">Enter your phone number:</label>
+                <input type="text" id="loginInput" class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <button type="submit" class="w-full px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-200 shadow-md">Login</button>
+            <button type="button" id="backToRolesBtn" class="w-full text-gray-500 mt-4 hover:text-gray-700">Back</button>
+        </form>
     </div>
-    <div class="card">
-        <img src="https://i.imgur.com/mHbw06G.jpeg" alt="Card Image 2">
-        <div class="card-text">This is a description for image 2.</div>
-    </div>
-    <div class="card">
-        <img src="https://i.imgur.com/gNqO7Qw.jpeg" alt="Card Image 3">
-        <div class="card-text">This is a description for image 3.</div>
-    </div>
-    <div class="card">
-        <img src="https://i.imgur.com/MNcWoDK.jpeg" alt="Card Image 4">
-        <div class="card-text">This is a description for image 4.</div>
-    </div>
-    <div class="card">
-        <img src="https://i.imgur.com/VH2OvbN.jpeg" alt="Card Image 4">
-        <div class="card-text">This is a description for image 4.</div>
-    </div>
-    <div class="card">
-        <img src="https://i.imgur.com/E52r3k1.jpeg" alt="Card Image 4">
-        <div class="card-text">This is a description for image 4.</div>
-    </div>
-    <div class="card">
-        <img src="https://via.placeholder.com/300x200" alt="Card Image 4">
-        <div class="card-text">This is a description for image 4.</div>
-    </div>
-</div>
 
+    <!-- Main Dashboard Container -->
+    <div id="dashboardContainer" class="hidden max-w-6xl w-full bg-white rounded-xl shadow-2xl p-6 sm:p-8 space-y-8">
+        <header class="text-center flex flex-col items-center">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-800">Sales Report Dashboard</h1>
+            <p id="subHeader" class="text-md sm:text-lg text-gray-500 mt-2">Real-time data and sales analysis</p>
+            <button id="logoutBtn" class="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">Logout</button>
+        </header>
+
+        <section id="auth-info" class="text-center text-sm text-gray-500 mt-4">
+            <p>Loading...</p>
+        </section>
+        
+        <div class="flex flex-col md:flex-row gap-8">
+            <!-- Sale Entry Section (Owner only) -->
+            <div id="saleEntrySection" class="flex-1 space-y-4 p-6 border rounded-xl shadow-inner bg-gray-50">
+                <h2 class="text-2xl font-semibold text-gray-700">New Sale</h2>
+                <form id="customerForm" class="space-y-4">
+                    <div>
+                        <label for="salePriceInput" class="block text-sm font-medium text-gray-700">Price (LKR):</label>
+                        <input type="number" id="salePriceInput" step="0.01" required class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    </div>
+                    <div>
+                        <label for="customerNameInput" class="block text-sm font-medium text-gray-700">Customer Name:</label>
+                        <input type="text" id="customerNameInput" required class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    </div>
+                    <div>
+                        <label for="customerContactInput" class="block text-sm font-medium text-gray-700">Customer Contact No:</label>
+                        <input type="text" id="customerContactInput" required class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    </div>
+                    <button type="submit" class="w-full px-6 py-3 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-700 transition duration-200 shadow-md">Complete Sale</button>
+                </form>
+            </div>
+            
+            <!-- Sales Report Section -->
+            <div class="flex-1 space-y-4 p-6 border rounded-xl shadow-inner bg-gray-50">
+                <h2 class="text-2xl font-bold text-gray-800">Sales Report</h2>
+                <div id="ownerFilters" class="flex flex-col gap-4">
+                    <div class="flex justify-between items-center space-x-2">
+                        <button id="dailyBtn" class="flex-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">Daily</button>
+                        <button id="monthlyBtn" class="flex-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">Monthly</button>
+                        <button id="annuallyBtn" class="flex-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">Annually</button>
+                    </div>
+                    <div class="flex justify-between items-center space-x-2">
+                        <button id="allBtn" class="flex-1 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition">All</button>
+                        <button id="completedBtn" class="flex-1 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">Completed</button>
+                        <button id="ongoingBtn" class="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">Ongoing</button>
+                    </div>
+                </div>
+                 <div id="salesSummary" class="mt-4 p-4 rounded-lg bg-gray-100 shadow-inner space-y-2">
+                    <p class="text-sm font-semibold text-gray-700">Total Sales Value: <span id="totalSalesValue" class="font-bold text-gray-800">0.00 LKR</span></p>
+                    <p class="text-sm font-semibold text-gray-700">Total Received: <span id="totalReceived" class="font-bold text-green-600">0.00 LKR</span></p>
+                    <p class="text-sm font-semibold text-gray-700">Total Outstanding: <span id="totalOutstanding" class="font-bold text-red-600">0.00 LKR</span></p>
+                </div>
+                <div id="customerOutstandingSummary" class="hidden text-center mt-4 p-4 rounded-lg bg-gray-100 shadow-inner">
+                    <p class="text-lg font-bold text-red-600">Total Outstanding: <span id="customerTotalOutstanding">0.00 LKR</span></p>
+                </div>
+                <!-- Search Box for Owner Dashboard -->
+                <div id="searchContainer" class="relative mt-4" style="display: none;">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <svg class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                        </svg>
+                    </div>
+                    <input type="text" id="searchInput" placeholder="Search by name or phone..." class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button id="clearSearchBtn" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="space-y-4 mt-4 overflow-y-auto max-h-[50vh]">
+                    <div id="salesList">
+                        <!-- Sales cards will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Sale Type Selection Modal -->
+    <div id="saleOptionsModal" class="fixed inset-0 flex items-center justify-center hidden modal-bg z-40">
+        <div class="bg-white p-8 rounded-xl shadow-2xl w-96 text-center space-y-6">
+            <h3 class="text-2xl font-bold text-gray-800">Choose Sale Type</h3>
+            <div id="saleTypeButtons" class="flex gap-4">
+                <button id="cashBtn" class="flex-1 px-6 py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition duration-200">Cash</button>
+                <button id="creditBtn" class="flex-1 px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-200">Credit</button>
+            </div>
+            <div id="downPaymentForm" class="space-y-4 hidden">
+                <div>
+                    <label for="downPaymentInput" class="block text-sm font-medium text-gray-700">Down Payment Amount (LKR):</label>
+                    <input type="number" id="downPaymentInput" step="0.01" required class="w-full mt-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <button id="submitCreditSaleBtn" class="w-full px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-200">Submit Credit Sale</button>
+            </div>
+            <button id="cancelModalBtn" class="w-full text-gray-500 mt-4 hover:text-gray-700">Cancel</button>
+        </div>
+    </div>
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, onSnapshot, addDoc, doc, updateDoc, serverTimestamp, deleteDoc, getDoc, query, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global variables provided by the environment
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfigString = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        let db, auth;
+        let userId;
+        let isOwner = false;
+        let customerPhoneNumber = null;
+        let currentSaleData = {}; // Temporary storage for sale data
+        let allSales = []; // State for all sales documents
+
+        // New variables for filtering
+        let currentStatusFilter = 'all'; // 'all', 'completed', 'ongoing'
+        let currentTimeframe = 'monthly'; // 'daily', 'monthly', 'annually'
+        let currentSearchQuery = ''; // Search query
+
+        // UI elements
+        const toast = document.getElementById('toast');
+        const authInfo = document.getElementById('auth-info');
+        const customerForm = document.getElementById('customerForm');
+        const salePriceInput = document.getElementById('salePriceInput');
+        const customerNameInput = document.getElementById('customerNameInput');
+        const customerContactInput = document.getElementById('customerContactInput');
+        const salesListDiv = document.getElementById('salesList');
+        const totalSalesValueSpan = document.getElementById('totalSalesValue');
+        const totalReceivedSpan = document.getElementById('totalReceived');
+        const totalOutstandingSpan = document.getElementById('totalOutstanding');
+        const customerTotalOutstandingSpan = document.getElementById('customerTotalOutstanding');
+        const dailyBtn = document.getElementById('dailyBtn');
+        const monthlyBtn = document.getElementById('monthlyBtn');
+        const annuallyBtn = document.getElementById('annuallyBtn');
+        const allBtn = document.getElementById('allBtn');
+        const completedBtn = document.getElementById('completedBtn');
+        const ongoingBtn = document.getElementById('ongoingBtn');
+        const saleOptionsModal = document.getElementById('saleOptionsModal');
+        const saleTypeButtons = document.getElementById('saleTypeButtons');
+        const cashBtn = document.getElementById('cashBtn');
+        const creditBtn = document.getElementById('creditBtn');
+        const downPaymentForm = document.getElementById('downPaymentForm');
+        const downPaymentInput = document.getElementById('downPaymentInput');
+        const submitCreditSaleBtn = document.getElementById('submitCreditSaleBtn');
+        const cancelModalBtn = document.getElementById('cancelModalBtn');
+        const loginForm = document.getElementById('loginForm');
+        const dashboardContainer = document.getElementById('dashboardContainer');
+        const loginButtons = document.getElementById('loginButtons');
+        const ownerLoginBtn = document.getElementById('ownerLoginBtn');
+        const customerLoginBtn = document.getElementById('customerLoginBtn');
+        const loginFormContent = document.getElementById('loginFormContent');
+        const loginLabel = document.getElementById('loginLabel');
+        const loginInput = document.getElementById('loginInput');
+        const backToRolesBtn = document.getElementById('backToRolesBtn');
+        const saleEntrySection = document.getElementById('saleEntrySection');
+        const salesSummary = document.getElementById('salesSummary');
+        const ownerFilters = document.getElementById('ownerFilters');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const customerOutstandingSummary = document.getElementById('customerOutstandingSummary');
+        const searchInput = document.getElementById('searchInput');
+        const searchContainer = document.getElementById('searchContainer');
+        const clearSearchBtn = document.getElementById('clearSearchBtn');
+
+        // Hardcoded Owner Password
+        const OWNER_PASSWORD = 'egl';
+
+        // Show toast notification
+        function showToast(message, isError = false) {
+            toast.textContent = message;
+            toast.className = `fixed top-5 right-5 px-4 py-2 rounded-lg shadow-lg text-white block z-50 transition-all duration-300 transform ${isError ? 'bg-red-500' : 'bg-green-500'} translate-x-0 opacity-100`;
+            setTimeout(() => {
+                toast.className = 'fixed top-5 right-5 px-4 py-2 rounded-lg shadow-lg text-white hidden z-50 transition-all duration-300 transform translate-x-full opacity-0';
+            }, 3000);
+        }
+
+        // Initialize Firebase and Authentication
+        function initializeFirebase() {
+            try {
+                if (!firebaseConfigString) {
+                    console.error("Firebase config is not available.");
+                    return;
+                }
+                const firebaseConfig = JSON.parse(firebaseConfigString);
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        userId = user.uid;
+                        authInfo.innerHTML = `<p class="text-xs">User ID: <span class="font-mono text-gray-700 break-all">${userId}</span></p>`;
+                    } else {
+                        if (initialAuthToken) {
+                            await signInWithCustomToken(auth, initialAuthToken);
+                        } else {
+                            await signInAnonymously(auth);
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error("Error initializing Firebase:", error);
+                showToast("Firebase initialization error.", true);
+            }
+        }
+
+        // Show the appropriate dashboard view
+        function showDashboard(isOwnerView, customerNumber = null) {
+            isOwner = isOwnerView;
+            customerPhoneNumber = customerNumber;
+
+            loginForm.classList.add('hidden');
+            dashboardContainer.classList.remove('hidden');
+
+            // Toggle UI elements based on user type
+            if (isOwner) {
+                saleEntrySection.classList.remove('hidden');
+                salesSummary.classList.remove('hidden');
+                ownerFilters.classList.remove('hidden');
+                customerOutstandingSummary.classList.add('hidden');
+                searchContainer.style.display = 'block';
+                document.getElementById('subHeader').textContent = "Real-time data and sales analysis";
+            } else {
+                saleEntrySection.classList.add('hidden');
+                salesSummary.classList.add('hidden');
+                ownerFilters.classList.add('hidden');
+                customerOutstandingSummary.classList.remove('hidden');
+                searchContainer.style.display = 'none';
+                document.getElementById('subHeader').textContent = `Transactions for ${customerNumber}`;
+            }
+
+            fetchAndDisplaySales();
+        }
+        
+        // Fetch and display sales based on user type and filters
+        function fetchAndDisplaySales() {
+            const salesCollection = collection(db, `/artifacts/${appId}/users/${userId}/sales`);
+            let salesQuery;
+
+            if (isOwner) {
+                salesQuery = salesCollection;
+            } else {
+                salesQuery = query(salesCollection, where("customerContact", "==", customerPhoneNumber));
+            }
+            
+            onSnapshot(salesQuery, (snapshot) => {
+                allSales = [];
+                snapshot.forEach((doc) => {
+                    const sale = { id: doc.id, ...doc.data() };
+                    const totalPaid = (sale.payments || []).reduce((sum, payment) => sum + payment.amount, 0);
+                    const remainingBalance = (sale.totalAmount - totalPaid).toFixed(2);
+                    const isPaid = remainingBalance <= 0.01;
+                    allSales.push({ ...sale, remainingBalance, isPaid });
+                });
+                renderSalesList();
+            }, (error) => {
+                console.error("Error listening to sales:", error);
+                showToast("Error loading sales history.", true);
+            });
+        }
+        
+        function renderSalesList() {
+            salesListDiv.innerHTML = '';
+            
+            // Apply all filters
+            let filteredSales = allSales.filter(sale => {
+                const now = new Date();
+                let isTimeframeMatch = false;
+
+                if (isOwner) {
+                    const timestamp = sale.timestamp ? sale.timestamp.toDate() : null;
+                    if (!timestamp) return false;
+
+                    let startDate, endDate;
+                    if (currentTimeframe === 'daily') {
+                        startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                        endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+                    } else if (currentTimeframe === 'monthly') {
+                        startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+                        endDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+                    } else if (currentTimeframe === 'annually') {
+                        startDate = new Date(now.getFullYear(), 0, 1);
+                        endDate = new Date(now.getFullYear() + 1, 0, 1);
+                    }
+                    isTimeframeMatch = (timestamp >= startDate && timestamp < endDate);
+                } else {
+                    isTimeframeMatch = true; // No timeframe filter for customers
+                }
+
+                const isStatusMatch = (currentStatusFilter === 'all') || 
+                                     (currentStatusFilter === 'completed' && sale.isPaid) || 
+                                     (currentStatusFilter === 'ongoing' && !sale.isPaid);
+
+                const lowerCaseQuery = currentSearchQuery.toLowerCase();
+                const isSearchMatch = isOwner ? 
+                    (sale.customerName.toLowerCase().includes(lowerCaseQuery) || sale.customerContact.toLowerCase().includes(lowerCaseQuery)) : 
+                    true; // No search filter for customers
+
+                return isTimeframeMatch && isStatusMatch && isSearchMatch;
+            });
+            
+            // Sort by timestamp
+            filteredSales.sort((a, b) => b.timestamp.toDate() - a.timestamp.toDate());
+            
+            // Calculate totals for owner
+            if (isOwner) {
+                const totalSalesValue = filteredSales.reduce((sum, sale) => sum + sale.totalAmount, 0);
+                const totalReceived = filteredSales.reduce((sum, sale) => sum + (sale.payments || []).reduce((pSum, p) => pSum + p.amount, 0), 0);
+                const totalOutstanding = filteredSales.reduce((sum, sale) => sum + parseFloat(sale.remainingBalance), 0);
+                totalSalesValueSpan.textContent = `${totalSalesValue.toFixed(2)} LKR`;
+                totalReceivedSpan.textContent = `${totalReceived.toFixed(2)} LKR`;
+                totalOutstandingSpan.textContent = `${totalOutstanding.toFixed(2)} LKR`;
+            } else {
+                const totalOutstanding = filteredSales.reduce((sum, sale) => sum + parseFloat(sale.remainingBalance), 0);
+                customerTotalOutstandingSpan.textContent = `${totalOutstanding.toFixed(2)} LKR`;
+                if (totalOutstanding > 0) {
+                    customerOutstandingSummary.classList.remove('hidden');
+                } else {
+                    customerOutstandingSummary.classList.add('hidden');
+                }
+            }
+
+            if (filteredSales.length === 0) {
+                salesListDiv.innerHTML = `<p class="text-center text-gray-500">No sales records found.</p>`;
+                return;
+            }
+            
+            filteredSales.forEach((sale) => {
+                const date = sale.timestamp ? new Date(sale.timestamp.toDate()).toLocaleString('en-US') : 'N/A';
+
+                let statusBadgesHtml = '';
+                if (sale.isPaid) {
+                    statusBadgesHtml = `<span class="absolute top-2 left-2 px-3 py-1 bg-green-500 text-white text-xs font-bold rounded-full shadow-md">Completed</span>`;
+                } else {
+                    const saleDate = sale.timestamp.toDate();
+                    const now = new Date();
+                    const timeDifference = now.getTime() - saleDate.getTime();
+                    const daysPassed = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+                    statusBadgesHtml = `
+                        <span class="absolute top-2 left-2 px-3 py-1 bg-red-500 text-white text-xs font-bold rounded-full shadow-md">Ongoing</span>
+                        <span class="absolute top-2 right-2 text-red-500 text-xs font-bold">${daysPassed} Days Passed</span>
+                    `;
+                }
+
+                const saleCard = document.createElement('div');
+                saleCard.className = `relative bg-white rounded-lg shadow-md p-6 space-y-2 border ${sale.isPaid ? 'border-green-500' : 'border-gray-200'} pt-10`;
+                saleCard.dataset.id = sale.id;
+
+                let cardContent = `
+                    ${statusBadgesHtml}
+                    <p class="text-gray-600 text-sm">Date: ${date}</p>
+                `;
+
+                if (isOwner) {
+                    cardContent += `
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">Customer Name:</label>
+                            <input type="text" value="${sale.customerName}" class="customer-name-input w-full px-4 py-2 rounded-lg border border-gray-300 disabled:bg-gray-100 disabled:border-gray-200" disabled>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">Contact No:</label>
+                            <input type="text" value="${sale.customerContact}" class="customer-contact-input w-full px-4 py-2 rounded-lg border border-gray-300 disabled:bg-gray-100 disabled:border-gray-200" disabled>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">Price (LKR):</label>
+                            <input type="number" step="0.01" value="${sale.totalAmount.toFixed(2)}" class="price-input w-full px-4 py-2 rounded-lg border border-gray-300 disabled:bg-gray-100 disabled:border-gray-200" disabled>
+                        </div>
+                    `;
+                } else {
+                     cardContent += `
+                        <div class="space-y-2">
+                            <label class="block text-sm font-medium text-gray-700">Price (LKR):</label>
+                            <input type="number" step="0.01" value="${sale.totalAmount.toFixed(2)}" class="price-input w-full px-4 py-2 rounded-lg border border-gray-300 disabled:bg-gray-100 disabled:border-gray-200" disabled>
+                        </div>
+                    `;
+                }
+                
+                cardContent += `
+                    ${sale.payments && sale.payments.length > 0 ? `
+                        <div class="mt-4 p-3 bg-blue-50 rounded-lg">
+                            <p class="text-sm font-bold text-blue-800">Payments:</p>
+                            <ul class="list-disc list-inside mt-2 space-y-1">
+                                ${sale.payments.map(p => `<li class="text-sm text-blue-800">${p.date ? new Date(p.date.toDate()).toLocaleString('en-US') : new Date().toLocaleString('en-US')}: <span class="font-bold">${p.amount.toFixed(2)} LKR</span></li>`).join('')}
+                            </ul>
+                            <p class="text-sm text-blue-800 mt-2">Remaining Balance: <span class="font-bold text-red-600">${sale.remainingBalance} LKR</span></p>
+                        </div>
+                    ` : ''}
+                `;
+                
+                if (isOwner) {
+                    cardContent += `
+                    <div class="flex gap-2 mt-4 flex-wrap">
+                        <button class="edit-sale-btn px-4 py-2 text-sm bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition">Edit</button>
+                        <button class="save-sale-btn px-4 py-2 text-sm bg-green-500 text-white rounded-md hover:bg-green-600 transition hidden">Save</button>
+                        <button class="cancel-edit-btn px-4 py-2 text-sm bg-gray-500 text-white rounded-md hover:bg-gray-600 transition hidden">Cancel</button>
+                        <button class="delete-sale-btn px-4 py-2 text-sm bg-red-500 text-white rounded-md hover:bg-red-600 transition hidden">Delete</button>
+                        <button class="down-payment-btn px-4 py-2 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600 transition hidden">Down Payment</button>
+                    </div>
+                    <div class="down-payment-form hidden mt-4">
+                        <label class="block text-sm font-medium text-gray-700">Down Payment (LKR):</label>
+                        <input type="number" step="0.01" class="down-payment-input w-full mt-1 px-4 py-2 rounded-lg border border-gray-300">
+                        <button class="confirm-down-payment-btn w-full mt-2 px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">Submit Payment</button>
+                    </div>
+                    <div class="confirm-delete-form hidden mt-4 p-4 bg-red-100 rounded-lg">
+                        <p class="text-red-800 font-semibold">Do you want to delete this sale?</p>
+                        <div class="flex gap-2 mt-2">
+                            <button class="confirm-delete-yes-btn flex-1 px-4 py-2 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition">Yes, Delete</button>
+                            <button class="confirm-delete-no-btn flex-1 px-4 py-2 text-sm bg-gray-500 text-white rounded-md hover:bg-gray-600 transition">Cancel</button>
+                        </div>
+                    </div>
+                    `;
+                }
+                
+                saleCard.innerHTML = cardContent;
+                salesListDiv.appendChild(saleCard);
+            });
+            
+            if (isOwner) {
+                document.querySelectorAll('.edit-sale-btn').forEach(btn => btn.addEventListener('click', (e) => toggleEditMode(e.target.closest('[data-id]'), true)));
+                document.querySelectorAll('.save-sale-btn').forEach(btn => btn.addEventListener('click', (e) => saveEdit(e.target)));
+                document.querySelectorAll('.cancel-edit-btn').forEach(btn => btn.addEventListener('click', (e) => toggleEditMode(e.target.closest('[data-id]'), false)));
+                document.querySelectorAll('.delete-sale-btn').forEach(btn => btn.addEventListener('click', (e) => toggleDeleteConfirm(e.target.closest('[data-id]'), true)));
+                document.querySelectorAll('.down-payment-btn').forEach(btn => btn.addEventListener('click', (e) => toggleDownPaymentForm(e.target.closest('[data-id]'), true)));
+            }
+        }
+        
+        function toggleEditMode(card, isEditing) {
+            const nameInput = card.querySelector('.customer-name-input');
+            const contactInput = card.querySelector('.customer-contact-input');
+            const priceInput = card.querySelector('.price-input');
+            const editBtn = card.querySelector('.edit-sale-btn');
+            const saveBtn = card.querySelector('.save-sale-btn');
+            const cancelBtn = card.querySelector('.cancel-edit-btn');
+            const deleteBtn = card.querySelector('.delete-sale-btn');
+            const downPaymentBtn = card.querySelector('.down-payment-btn');
+            const downPaymentForm = card.querySelector('.down-payment-form');
+            const deleteConfirmForm = card.querySelector('.confirm-delete-form');
+            
+            if (isEditing) {
+                if (nameInput) nameInput.disabled = false;
+                if (contactInput) contactInput.disabled = false;
+                if (priceInput) priceInput.disabled = false;
+                editBtn.classList.add('hidden');
+                saveBtn.classList.remove('hidden');
+                cancelBtn.classList.remove('hidden');
+                deleteBtn.classList.remove('hidden');
+                downPaymentBtn.classList.remove('hidden');
+                downPaymentForm.classList.add('hidden');
+                deleteConfirmForm.classList.add('hidden');
+            } else {
+                if (nameInput) nameInput.disabled = true;
+                if (contactInput) contactInput.disabled = true;
+                if (priceInput) priceInput.disabled = true;
+                editBtn.classList.remove('hidden');
+                saveBtn.classList.add('hidden');
+                cancelBtn.classList.add('hidden');
+                deleteBtn.classList.add('hidden');
+                downPaymentBtn.classList.add('hidden');
+                downPaymentForm.classList.add('hidden');
+                deleteConfirmForm.classList.add('hidden');
+            }
+        }
+        
+        async function saveEdit(button) {
+            const card = button.closest('[data-id]');
+            const saleId = card.dataset.id;
+            const nameInput = card.querySelector('.customer-name-input');
+            const contactInput = card.querySelector('.customer-contact-input');
+            const priceInput = card.querySelector('.price-input');
+            
+            const newName = nameInput.value.trim();
+            const newContact = contactInput.value.trim();
+            const newPrice = parseFloat(priceInput.value);
+            
+            if (!newName || !newContact || isNaN(newPrice)) {
+                showToast("Please enter valid name, contact, and price.", true);
+                return;
+            }
+            
+            try {
+                const docRef = doc(db, `/artifacts/${appId}/users/${userId}/sales`, saleId);
+                await updateDoc(docRef, { customerName: newName, customerContact: newContact, totalAmount: newPrice });
+                showToast("Sale updated successfully!");
+                toggleEditMode(card, false);
+            } catch (error) {
+                console.error("Error updating sale:", error);
+                showToast("Error updating sale. Please try again.", true);
+            }
+        }
+        
+        function toggleDeleteConfirm(card, show) {
+            const deleteConfirmForm = card.querySelector('.confirm-delete-form');
+            if (show) {
+                deleteConfirmForm.classList.remove('hidden');
+            } else {
+                deleteConfirmForm.classList.add('hidden');
+            }
+        }
+
+        document.addEventListener('click', async (e) => {
+            if (e.target.classList.contains('confirm-delete-yes-btn')) {
+                const card = e.target.closest('[data-id]');
+                const saleId = card.dataset.id;
+                try {
+                    await deleteDoc(doc(db, `/artifacts/${appId}/users/${userId}/sales`, saleId));
+                    showToast("Sale deleted successfully!");
+                } catch (error) {
+                    console.error("Error deleting sale:", error);
+                    showToast("Error deleting sale. Please try again.", true);
+                }
+            } else if (e.target.classList.contains('confirm-delete-no-btn')) {
+                toggleDeleteConfirm(e.target.closest('[data-id]'), false);
+            } else if (e.target.classList.contains('confirm-down-payment-btn')) {
+                const card = e.target.closest('[data-id]');
+                const saleId = card.dataset.id;
+                const downPaymentInput = card.querySelector('.down-payment-input');
+                const downPaymentAmount = parseFloat(downPaymentInput.value);
+                
+                if (isNaN(downPaymentAmount) || downPaymentAmount <= 0) {
+                    showToast("Please enter a valid down payment amount.", true);
+                    return;
+                }
+
+                try {
+                    const docRef = doc(db, `/artifacts/${appId}/users/${userId}/sales`, saleId);
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists()) {
+                        const originalSale = docSnap.data();
+                        const currentPayments = originalSale.payments || [];
+                        
+                        const newPayment = {
+                            amount: downPaymentAmount,
+                            date: new Date()
+                        };
+                        
+                        currentPayments.push(newPayment);
+
+                        await updateDoc(docRef, { 
+                            payments: currentPayments
+                        });
+                        showToast("Down payment recorded successfully!");
+                        toggleDownPaymentForm(card, false);
+                    }
+                } catch (error) {
+                    console.error("Error submitting down payment:", error);
+                    showToast("Error submitting down payment. Please try again.", true);
+                }
+            }
+        });
+
+        function toggleDownPaymentForm(card, show) {
+            const downPaymentForm = card.querySelector('.down-payment-form');
+            if (show) {
+                downPaymentForm.classList.remove('hidden');
+            } else {
+                downPaymentForm.classList.add('hidden');
+            }
+        }
+
+        customerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const customerName = customerNameInput.value.trim();
+            const customerContact = customerContactInput.value.trim();
+            const salePrice = parseFloat(salePriceInput.value);
+
+            if (!customerName || !customerContact || isNaN(salePrice)) {
+                showToast("Please enter valid price, name, and contact number.", true);
+                return;
+            }
+            
+            currentSaleData = { customerName, customerContact, totalAmount: salePrice };
+            
+            saleOptionsModal.classList.remove('hidden');
+            saleTypeButtons.classList.remove('hidden');
+            downPaymentForm.classList.add('hidden');
+            downPaymentInput.value = '';
+        });
+        
+        async function saveSale(saleData) {
+            try {
+                const salesCollection = collection(db, `/artifacts/${appId}/users/${userId}/sales`);
+                await addDoc(salesCollection, {
+                    ...saleData,
+                    timestamp: serverTimestamp()
+                });
+                showToast("Sale completed successfully!");
+                customerForm.reset();
+                saleOptionsModal.classList.add('hidden');
+            } catch (error) {
+                console.error("Error completing sale:", error);
+                showToast("Error completing sale. Please try again.", true);
+            }
+        }
+
+        cashBtn.addEventListener('click', () => {
+            const saleData = {
+                ...currentSaleData,
+                payments: [{ amount: currentSaleData.totalAmount, date: new Date() }]
+            };
+            saveSale(saleData);
+        });
+
+        creditBtn.addEventListener('click', () => {
+            saleTypeButtons.classList.add('hidden');
+            downPaymentForm.classList.remove('hidden');
+            downPaymentInput.focus();
+        });
+
+        submitCreditSaleBtn.addEventListener('click', () => {
+            const downPaymentAmount = parseFloat(downPaymentInput.value);
+            const totalAmount = currentSaleData.totalAmount;
+
+            if (isNaN(downPaymentAmount) || downPaymentAmount < 0 || downPaymentAmount > totalAmount) {
+                showToast("Please enter a valid down payment amount (less than or equal to the total price).", true);
+                return;
+            }
+
+            const saleData = {
+                ...currentSaleData,
+                payments: [{ amount: downPaymentAmount, date: new Date() }]
+            };
+            saveSale(saleData);
+        });
+
+        cancelModalBtn.addEventListener('click', () => {
+            saleOptionsModal.classList.add('hidden');
+            customerForm.reset();
+        });
+
+        // --- Login Logic ---
+        let loginMode = null; // 'owner' or 'customer'
+
+        ownerLoginBtn.addEventListener('click', () => {
+            loginMode = 'owner';
+            loginButtons.classList.add('hidden');
+            loginFormContent.classList.remove('hidden');
+            loginLabel.textContent = 'Enter Password:';
+            loginInput.type = 'password';
+            loginInput.value = '';
+            loginInput.focus();
+        });
+
+        customerLoginBtn.addEventListener('click', () => {
+            loginMode = 'customer';
+            loginButtons.classList.add('hidden');
+            loginFormContent.classList.remove('hidden');
+            loginLabel.textContent = 'Enter your phone number:';
+            loginInput.type = 'text';
+            loginInput.value = '';
+            loginInput.focus();
+        });
+
+        backToRolesBtn.addEventListener('click', () => {
+            loginButtons.classList.remove('hidden');
+            loginFormContent.classList.add('hidden');
+            loginInput.value = '';
+            loginMode = null;
+        });
+
+        loginFormContent.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const inputValue = loginInput.value.trim();
+
+            if (loginMode === 'owner') {
+                if (inputValue === OWNER_PASSWORD) {
+                    showDashboard(true);
+                } else {
+                    showToast("Incorrect password. Please try again.", true);
+                }
+            } else if (loginMode === 'customer') {
+                if (inputValue !== '') {
+                    showDashboard(false, inputValue);
+                } else {
+                    showToast("Please enter a phone number.", true);
+                }
+            }
+        });
+        
+        logoutBtn.addEventListener('click', () => {
+            dashboardContainer.classList.add('hidden');
+            loginForm.classList.remove('hidden');
+            loginButtons.classList.remove('hidden');
+            loginFormContent.classList.add('hidden');
+            loginInput.value = '';
+            loginMode = null;
+        });
+
+        dailyBtn.addEventListener('click', () => {
+            currentTimeframe = 'daily';
+            renderSalesList();
+        });
+        monthlyBtn.addEventListener('click', () => {
+            currentTimeframe = 'monthly';
+            renderSalesList();
+        });
+        annuallyBtn.addEventListener('click', () => {
+            currentTimeframe = 'annually';
+            renderSalesList();
+        });
+        
+        allBtn.addEventListener('click', () => {
+            currentStatusFilter = 'all';
+            renderSalesList();
+        });
+        completedBtn.addEventListener('click', () => {
+            currentStatusFilter = 'completed';
+            renderSalesList();
+        });
+        ongoingBtn.addEventListener('click', () => {
+            currentStatusFilter = 'ongoing';
+            renderSalesList();
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            currentSearchQuery = e.target.value;
+            clearSearchBtn.classList.toggle('hidden', currentSearchQuery === '');
+            renderSalesList();
+        });
+
+        clearSearchBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            currentSearchQuery = '';
+            clearSearchBtn.classList.add('hidden');
+            renderSalesList();
+        });
+
+        window.onload = initializeFirebase;
+    </script>
 </body>
 </html>
